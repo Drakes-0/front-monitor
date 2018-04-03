@@ -1,0 +1,21 @@
+{
+  "name": "front-monitor",
+  "version": "1.0.0",
+  "description": "Front-end exception monitoring",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test",
+    "build:es": "rollup -c rollup.module.config.js",
+    "build:iife": "rollup -c rollup.iife.config.js"
+  },
+  "author": "wujiang",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-latest": "^6.24.1",
+    "rollup": "^0.57.1",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-uglify": "^3.0.0"
+  }
+}
