@@ -37,38 +37,43 @@
 ```html
 <script type="text/javascript" src="path/to/monitor.min.js"></script>
 <script type="text/javascript">
-    ExceptionMonitor(options)
+    FrontMonitor(options)
 </script>
 ```
 
 通过`npm`引用
 
 ```javascript
-import ExceptionMonitor from 'monitor'
+import FrontMonitor from '@nightlighting/frontend-monitor'
 
-ExceptionMonitor(options)
+FrontMonitor(options)
 ```
 
 ## options[配置项]
 
 ```javascript
-reportUrl               String  上报地址
+appId                   String          项目id
 
-postFields              Array   上报信息的字段名，依次表征异常信息、类型、resource、行、列和`UA`，默认['message', 'type', 'resource', 'line', 'column', 'ua']
+reportUrl               String          上报地址，必填
 
-distinct                Boolean 是否对同一异常去重，默认true
+reportFields            Array<String>   上报异常信息包含的字段名
 
-silent                  Boolean 是否阻止浏览器显示捕获的异常，默认false
+sameOrigin              Boolean         是否只检测同源脚本异常，默认true
 
-bufferTime              Number  缓冲的毫秒数，默认2000，10s以上视作10s
+distinct                Boolean         是否对同一异常去重，默认true
 
-bufferSize              Number  缓存的异常数，默认20，100以上视作100
+cacheKey                String          缓存key
 
-xhrErrorLevel           String  自定义AJAX的异常范围，用`/`隔开设定的状态码，例如"404/500/502"，默认"4/5"，表示监听以`4`或`5`开头的状态码
+bufferTime              Number          缓冲时间(毫秒)
+
+bufferSize              Number          缓存数量
+
+xhrErrorLevel           String|RegExp   自定义AJAX的异常范围，用`/`隔开设定的状态码，例如"404/500/502"，或正则，默认为'ALL'表示非`200`之外的所有情况
+
+xhrErrorMessage         String          业务api中的异常信息字段
 
 catchUnhandledrejection Boolean 是否捕获Uncaught Promise Error，默认false
 
-cacheKey                String  本地缓存的key值
 ```
 
 ### 解决方案
