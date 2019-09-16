@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run test",
-    "build:es": "rollup -c rollup.module.config.js",
-    "build:iife": "rollup -c rollup.iife.config.js"
+    "build:es": "tsc && rollup -c rollup.module.config.js",
+    "build:iife": "tsc && rollup -c rollup.iife.config.js"
   },
   "author": "wujiang",
   "license": "ISC",

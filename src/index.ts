@@ -13,7 +13,7 @@ import hookXHR from './hookXHR'
 
 (function (win) {
     if (typeof win === 'undefined') {
-        return errorInfo('monitor need browser-like environment')
+        return errorInfo('monitor need browser-like environment'), null
     }
 
     function FrontMonitor(config) {
@@ -48,6 +48,6 @@ import hookXHR from './hookXHR'
         hookXHR(isXHRError, catchErrorByCustomType)
     }
 
-    (win as any).FrontMonitor = FrontMonitor
+    return (win as any).FrontMonitor = FrontMonitor
 })(window)
 

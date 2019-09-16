@@ -1,14 +1,10 @@
 {
     "compilerOptions": {
-        "lib": [
-            "dom",
-            "es2015"
-        ],
-        "baseUrl": ".",
-        "paths": {
-            "*": [
-                "types/*"
-            ]
-        }
-    }
+        "target": "ES2015",
+        "module": "ES2015",
+        "outDir": "./build"
+    },
+    "include": [
+        "src/**/*"
+    ]
 }
