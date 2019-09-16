@@ -1,4 +1,4 @@
-var config = {
+const config = {
     appId: 'fm-unnamed',
     reportFields: ['colno', 'lineno', 'filename', 'message'],
     sameOrigin: true,

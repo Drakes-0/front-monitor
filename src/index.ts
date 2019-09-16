@@ -11,12 +11,12 @@ import ErrorStack from './ErrorStack'
 import addEventListener from './addEventListener'
 import hookXHR from './hookXHR'
 
-(function (win) {
+const FrontMonitor = (function (win) {
     if (typeof win === 'undefined') {
-        return errorInfo('monitor need browser-like environment'), null
+        return errorInfo('monitor need browser-like environment'), () => { }
     }
 
-    function FrontMonitor(config) {
+    return function FrontMonitor(config) {
         if (isString(config)) {
             config = {
                 reportUrl: config
@@ -47,7 +47,7 @@ import hookXHR from './hookXHR'
 
         hookXHR(isXHRError, catchErrorByCustomType)
     }
-
-    return (win as any).FrontMonitor = FrontMonitor
 })(window)
+
+export default FrontMonitor
 

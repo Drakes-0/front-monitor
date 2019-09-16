@@ -1,14 +1,13 @@
 {
-  "name": "front-monitor",
+  "name": "frontend-monitor",
   "version": "1.0.0",
   "description": "Front-end exception monitoring",
   "main": "index.js",
   "scripts": {
     "test": "npm run test",
-    "build:es": "tsc && rollup -c rollup.module.config.js",
-    "build:iife": "tsc && rollup -c rollup.iife.config.js"
+    "build": "tsc && rollup -c rollup.umd.config.js"
   },
-  "author": "wujiang",
+  "author": "wujiang<5569082@qq.com>",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.26.0",

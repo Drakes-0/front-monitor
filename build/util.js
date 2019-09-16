@@ -1,5 +1,5 @@
 export function errorInfo(e) {
-    console.error("[Front-Monitor Error]: " + e);
+    console.error(`[Front-Monitor Error]: ${e}`);
 }
 export function isObject(o) {
     return typeof o === 'object' && o !== null;
@@ -16,22 +16,22 @@ function isAll(o) {
 export function isSameErrorEvent(prev, next) {
     return prev.type === next.type && prev.colno === next.colno && prev.lineno === next.lineno && prev.filename === next.filename && prev.message === next.message;
 }
-export var isSameOrigin = (function () {
-    var origin = window.location.protocol + "//" + document.domain + (window.location.port ? ':' + window.location.port : '');
-    return function (fileUrl) {
+export const isSameOrigin = (function () {
+    const origin = `${window.location.protocol}//${document.domain}${window.location.port ? ':' + window.location.port : ''}`;
+    return (fileUrl) => {
         return fileUrl.indexOf(origin) === 0;
     };
 })();
-export var genErrorInfoFunc = function (fields) { return function (errorInfo) {
-    var reportInfo = Object.create(null);
-    fields.forEach(function (f) {
+export const genErrorInfoFunc = (fields) => (errorInfo) => {
+    const reportInfo = Object.create(null);
+    fields.forEach(f => {
         reportInfo[f] = errorInfo[f] || '';
     });
     reportInfo.timestamp = Date.now();
     reportInfo.type = errorInfo.custom_type;
     return reportInfo;
-}; };
-export var isXHRErrorFunc = function (flag) { return function (status) {
+};
+export const isXHRErrorFunc = (flag) => (status) => {
     status += '';
     if (isString(flag)) {
         if (isAll(flag)) {
@@ -43,4 +43,4 @@ export var isXHRErrorFunc = function (flag) { return function (status) {
         return flag.test(status);
     }
     return false;
-}; };
+};
