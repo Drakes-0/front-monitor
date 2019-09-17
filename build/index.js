@@ -20,7 +20,7 @@ const FrontMonitor = (function (win) {
         const conf = Object.assign({}, defaultConfig, config);
         const genErrorInfo = genErrorInfoFunc(conf.reportFields);
         const isXHRError = isXHRErrorFunc(conf.xhrErrorLevel);
-        const reporter = new Reporter(conf.appId, conf.reportUrl);
+        const reporter = new Reporter(conf.appId, conf.version, conf.reportUrl);
         const stack = new ErrorStack(reporter, conf.distinct, conf.cacheKey, conf.cacheLimit, conf.bufferTime, conf.bufferSize);
         const catchErrorByCustomType = (type) => (ee) => {
             ee.custom_type = type;

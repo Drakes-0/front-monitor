@@ -1,5 +1,6 @@
 interface MonitorConfig {
     appId: string,
+    version?: string,
     reportUrl?: string,
     reportFields: Array<string>,
     sameOrigin: boolean,

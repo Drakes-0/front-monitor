@@ -52,25 +52,25 @@ FrontMonitor(options)
 ## options[配置项]
 
 ```javascript
-appId                   String          项目id
+appId               String          项目id
 
-reportUrl               String          上报地址，必填
+reportUrl           String          上报地址，必填
 
-reportFields            Array<String>   上报异常信息包含的字段名
+reportFields        Array<String>   上报异常信息包含的字段名
 
-sameOrigin              Boolean         是否只检测同源脚本异常，默认true
+sameOrigin          Boolean         是否只检测同源脚本异常，默认true
 
-distinct                Boolean         是否对同一异常去重，默认true
+distinct            Boolean         是否对同一异常去重，默认true
 
-cacheKey                String          缓存key
+cacheKey            String          缓存key
 
-bufferTime              Number          缓冲时间(毫秒)
+bufferTime          Number          缓冲时间(毫秒)
 
-bufferSize              Number          缓存数量
+bufferSize          Number          缓存数量
 
-xhrErrorLevel           String|RegExp   自定义AJAX的异常范围，用`/`隔开设定的状态码，例如"404/500/502"，或正则，默认为'ALL'表示非`200`之外的所有情况
+xhrErrorLevel       String|RegExp   自定义AJAX的异常范围，用`/`隔开设定的状态码，例如"404/500/502"，或正则，默认为'ALL'表示非`200`之外的所有情况
 
-xhrErrorMessage         String          业务api中的异常信息字段
+xhrErrorMessage     String          业务api中的异常信息字段
 
 catchUnhandledrejection Boolean 是否捕获Uncaught Promise Error，默认false
 

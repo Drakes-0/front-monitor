@@ -107,22 +107,25 @@
     };
 
     var Reporter = function () {
-        function Reporter(appId, url) {
+        function Reporter(appId) {
+            var version = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'unsinged';
+            var url = arguments[2];
             classCallCheck(this, Reporter);
 
             this.appId = appId;
+            this.version = version;
             this.url = url;
         }
 
         createClass(Reporter, [{
-            key: "report",
+            key: 'report',
             value: function report(records) {
-                var queryString = "?appId=" + encodeURIComponent(this.appId) + "&ua=" + encodeURIComponent(navigator.userAgent) + "&records=" + encodeURIComponent(JSON.stringify(records));
+                var queryString = '?appId=' + encodeURIComponent(this.appId) + '&version=' + encodeURIComponent(this.version) + '&ua=' + encodeURIComponent(navigator.userAgent) + '&records=' + encodeURIComponent(JSON.stringify(records));
                 var img = new Image();
                 img.onload = function () {
                     img = null;
                 };
-                img.src = "" + this.url + queryString;
+                img.src = '' + this.url + queryString;
             }
         }]);
         return Reporter;
@@ -265,7 +268,7 @@
             var conf = Object.assign({}, config, config$$1);
             var genErrorInfo = genErrorInfoFunc(conf.reportFields);
             var isXHRError = isXHRErrorFunc(conf.xhrErrorLevel);
-            var reporter = new Reporter(conf.appId, conf.reportUrl);
+            var reporter = new Reporter(conf.appId, conf.version, conf.reportUrl);
             var stack = new ErrorStack(reporter, conf.distinct, conf.cacheKey, conf.cacheLimit, conf.bufferTime, conf.bufferSize);
             var catchErrorByCustomType = function catchErrorByCustomType(type) {
                 return function (ee) {
