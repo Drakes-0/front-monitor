@@ -25,7 +25,7 @@ export const isSameOrigin = (function () {
 export const genErrorInfoFunc = (fields) => (errorInfo) => {
     const reportInfo = Object.create(null);
     fields.forEach(f => {
-        reportInfo[f] = errorInfo[f] || '';
+        reportInfo[f] = (errorInfo[f] === void 0 ? 'undefined' : errorInfo[f]);
     });
     reportInfo.timestamp = Date.now();
     reportInfo.type = errorInfo.custom_type;

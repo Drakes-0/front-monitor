@@ -34,7 +34,7 @@ export const genErrorInfoFunc = (fields: string[]): Function => (errorInfo: obje
     const reportInfo = Object.create(null)
 
     fields.forEach(f => {
-        reportInfo[f] = errorInfo[f] || ''
+        reportInfo[f] = (errorInfo[f] === void 0 ? 'undefined' : errorInfo[f])
     })
 
     reportInfo.timestamp = Date.now()
