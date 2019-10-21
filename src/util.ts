@@ -47,7 +47,7 @@ export const isXHRErrorFunc = (flag: string | RegExp): Function => (status: numb
     status += ''
     if (isString(flag)) {
         if (isAll(flag)) {
-            return flag !== '200'
+            return status !== '200'
         }
         return (flag as string).split('/').indexOf(status as string) > -1
     } else if (flag instanceof RegExp) {

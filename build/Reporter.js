@@ -1,5 +1,5 @@
 export default class Reporter {
-    constructor(appId, version = 'unsinged', url) {
+    constructor(appId, version = 'Default', url) {
         this.appId = appId;
         this.version = version;
         this.url = url;
