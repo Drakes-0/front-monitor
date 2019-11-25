@@ -35,7 +35,7 @@ export const isXHRErrorFunc = (flag) => (status) => {
     status += '';
     if (isString(flag)) {
         if (isAll(flag)) {
-            return flag !== '200';
+            return status !== '200';
         }
         return flag.split('/').indexOf(status) > -1;
     }
