@@ -1,23 +1,47 @@
-export default class Reporter implements ReporterInterface {
+import { ReportConfig } from './defaultConfig'
 
-    private readonly appId: string
+class FEEReporter implements FEEReporterInterface {
+  queue: FEErrorInterface[]
+  interval: number
+  retry: number
+  timer: any
+  handler: (e: FEErrorInterface) => void
+  retries: number
 
-    private readonly version: string
+  constructor(handler: (e: FEErrorInterface) => void) {
+    this.interval = ReportConfig.interval
+    this.retry = ReportConfig.retry
+    this.timer = null
+    this.queue = []
+    this.handler = handler
+    this.retries = 0
+  }
 
-    private readonly url: string
-
-    constructor(appId: string, version: string = 'Default', url: string) {
-        this.appId = appId
-        this.version = version
-        this.url = url
+  push(error: FEErrorInterface) {
+    if (this.retries >= this.retry) {
+      return
     }
-
-    report(records: ErrorEventObject[]) {
-        const queryString = `?appId=${encodeURIComponent(this.appId)}&version=${encodeURIComponent(this.version)}&records=${encodeURIComponent(JSON.stringify(records))}`
-        let img = new Image()
-        img.onload = () => {
-            img = null
-        }
-        img.src = `${this.url}${queryString}`
+    this.queue.push(error)
+    if (this.timer === null) {
+      this.timer = setTimeout(() => {
+        this.flush()
+      }, this.interval)
     }
+  }
+
+  flush() {
+    const queue = this.queue.slice()
+    this.queue = []
+    this.timer = null
+    queue.forEach((e: FEErrorInterface) => {
+      try {
+        this.handler(e)
+      } catch (err) {
+        console.error(err, e)
+        this.retries++
+      }
+    })
+  }
 }
+
+export default FEEReporter

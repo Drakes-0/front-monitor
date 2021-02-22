@@ -6,7 +6,7 @@ export default {
     output: {
         file: 'index.js',
         format: 'umd',
-        name: 'FrontMonitor'
+        name: '_FEEMonitor'
     },
     plugins: [
         babel({

@@ -1,57 +1,42 @@
-export function errorInfo(e: string): void {
-    console.error(`[Front-Monitor Error]: ${e}`)
-}
-
 export function isObject(o: any): boolean {
-    return typeof o === 'object' && o !== null
+  return typeof o === 'object' && o !== null
 }
 
-export function isString(o: any): boolean {
-    return typeof o === 'string'
+export function isString(s: any): boolean {
+  return typeof s === 'string'
 }
 
-// export function isArray(o: any): boolean {
-//     return Array.isArray(o)
-// }
-
-function isAll(o: any): boolean {
-    return /^all$/i.test(o)
+export function isFunction(f: any): boolean {
+  return typeof f === 'function'
 }
 
-export function isSameErrorEvent(prev: ErrorEventObject, next: ErrorEventObject): boolean {
-    return prev.type === next.type && prev.colno === next.colno && prev.lineno === next.lineno && prev.filename === next.filename && prev.message === next.message
+export function isRegExp(r: any): boolean {
+  return r instanceof RegExp
 }
 
-export const isSameOrigin: ((string) => boolean) = (function () {
-    const origin = `${window.location.protocol}//${document.domain}${window.location.port ? ':' + window.location.port : ''}`
-
-    return (fileUrl: string) => {
-        return fileUrl.indexOf(origin) === 0
+export function polyfillListener() {
+  if (typeof window.addEventListener === 'function') {
+    return
+  }
+  window.addEventListener = function (type: string, listener) {
+    let wrapper = function (e: any) {
+      e.target = e.srcElement
+      e.currentTarget = window
+      listener.call(window, e)
     }
-})()
-
-export const genErrorInfoFunc = (fields: string[]): Function => (errorInfo: object): object => {
-    const reportInfo = Object.create(null)
-
-    fields.forEach(f => {
-        reportInfo[f] = (errorInfo[f] === void 0 ? 'undefined' : errorInfo[f])
-    })
-
-    reportInfo.timestamp = Date.now()
-    reportInfo.type = (errorInfo as any).custom_type
-
-    return reportInfo as ErrorEventObject
+    window.attachEvent('on' + type, wrapper)
+  }
 }
 
-export const isXHRErrorFunc = (flag: string | RegExp): Function => (status: number | string): boolean => {
-    status += ''
-    if (isString(flag)) {
-        if (isAll(flag)) {
-            return status !== '200'
-        }
-        return (flag as string).split('/').indexOf(status as string) > -1
-    } else if (flag instanceof RegExp) {
-        return flag.test(status as string)
-    }
-    return false
+export function safeParse(json: any, defaultValue: any = null): any {
+  if (!isString(json) || !json.length) {
+    return defaultValue
+  }
+
+  try {
+    return JSON.parse(json)
+  } catch (e) {
+    console.error(e, json)
+    return defaultValue
+  }
 }

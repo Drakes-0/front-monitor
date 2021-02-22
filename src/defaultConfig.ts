@@ -1,25 +1,14 @@
-const config: MonitorConfig = {
-    appId: 'fm-unnamed',
-    reportFields: ['colno', 'lineno', 'filename', 'message'],
-    sameOrigin: true,
-    distinct: true,
-    cacheKey: 'FrontMonitorCache',
-    cacheLimit: 50,
-    bufferTime: 5000,
-    bufferSize: 10,
-    xhrErrorLevel: 'ALL',
-    xhrErrorMessage: 'message',
-    catchUnhandledRejection: true
+const DefaultConfig: FEEMConfigInterface = {
+  handler() {},
+  catchUnhandledRejection: true,
+  xhrRule(status: number) {
+    return status !== 200 && status !== 304
+  }
 }
 
-enum ERROR_TYPE {
-    RUNTIME = 'RUNTIME',
-    RESOURCE = 'RESOURCE',
-    UNHANDLEDREJECTION = 'UNHANDLEDREJECTION',
-    XMLHTTPREQUEST = 'XMLHTTPREQUEST'
+export const ReportConfig = {
+  interval: 5000,
+  retry: 3
 }
 
-export {
-    config as default,
-    ERROR_TYPE
-}
+export default DefaultConfig

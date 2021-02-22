@@ -1,33 +1,59 @@
-interface MonitorConfig {
-    appId: string,
-    version?: string,
-    reportUrl?: string,
-    reportFields: Array<string>,
-    sameOrigin: boolean,
-    distinct: boolean,
-    cacheKey: string,
-    cacheLimit: number,
-    bufferTime: number,
-    bufferSize: number,
-    xhrErrorLevel: string | RegExp,
-    xhrErrorMessage: string,
-    catchUnhandledRejection: boolean
+interface Window {
+  [property: string]: any
 }
 
-interface ErrorEventObject {
-    type: string,
-    colno: number,
-    lineno: number,
-    filename: string,
+declare enum FEErrorTypeEnum {
+  RESOURCE = 'resource',
+  RUNTIME = 'runtime',
+  XHR = 'xhr',
+  UNHANDLED = 'unhandled'
+}
+
+interface FEErrorInfoInterface {
+  colno?: number
+  lineno?: number
+  filename?: string
+  data?: any
+}
+
+interface FEErrorInterface {
+  referrer: string
+  type: FEErrorTypeEnum
+  time: number
+  message: string
+  info?: FEErrorInfoInterface
+}
+
+interface FEEMConfigInterface {
+  handler(e: FEErrorInterface): void
+  catchUnhandledRejection?: boolean
+  xhrRule?: RegExp | Function
+}
+
+declare abstract class FEEMonitorInterface {
+  config: FEEMConfigInterface
+  reporter: FEEReporterInterface
+  constructor(config: FEEMConfigInterface)
+
+  catchResourceAndRuntimeError(): void
+  catchXHRError(rule: RegExp | Function): void
+  catchUnhandledRejection(): void
+  throwError(
+    type: FEErrorTypeEnum,
     message: string,
-    timestamp: number
+    info?: FEErrorInfoInterface
+  ): void
 }
 
-interface ReporterInterface {
-    report(records: Array<ErrorEventObject>): void;
-}
+declare abstract class FEEReporterInterface {
+  queue: FEErrorInterface[]
+  interval: number
+  retry: number
+  timer: any
+  handler: (e: FEErrorInterface) => void
 
-interface ErrorStackInterface {
-    push(record: ErrorEventObject): void;
-    flush(): void;
+  constructor(handler: (e: FEErrorInterface) => void)
+
+  push(error: FEErrorInterface): void
+  flush(): void
 }
